@@ -6,6 +6,19 @@
 #define PB_FOREACH(iter, hash) \
 	for (zend_hash_internal_pointer_reset_ex((hash), (iter)); zend_hash_has_more_elements_ex((hash), (iter)) == SUCCESS; zend_hash_move_forward_ex((hash), (iter)))
 
+
+#if ZEND_MODULE_API_NO >= 20190128
+#ifndef TSRMLS_CC
+#define TSRMLS_CC
+#endif
+#ifndef TSRMLS_DC
+#define TSRMLS_DC
+#endif
+#ifndef TSRMLS_FETCH
+#define TSRMLS_FETCH()
+#endif
+#endif
+
 enum
 {
 	WIRE_TYPE_VARINT = 0,
