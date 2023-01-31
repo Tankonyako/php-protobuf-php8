@@ -929,7 +929,7 @@ static int pb_get_field_descriptors(zval *this, zval* return_value)
     TSRMLS_FETCH();
 
 	ZVAL_STRINGL(&method, PB_FIELDS_METHOD, sizeof(PB_FIELDS_METHOD) - 1);
-	if (call_user_function_ex(NULL, this, &method, &descriptors, 0, NULL, 0, NULL TSRMLS_CC) == FAILURE) {
+	if (call_user_function(NULL, this, &method, &descriptors, 0, NULL, 0, NULL TSRMLS_CC) == FAILURE) {
 		return -1;
 	}
 	*return_value = descriptors;
