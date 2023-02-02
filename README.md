@@ -1,5 +1,14 @@
-This repository is no longer maintained
+This fork is PHP 8.x temp patch
 =======================================
+
+⚠️ The extension can be built under Windows (You can use WSL), but I didn’t figure out how to do it, in this fork everything is translated to properties, since in PHP 8 you can’t create dynamic properties.
+
+🙌 `make test` is passed:
+
+![image](https://user-images.githubusercontent.com/48120579/216325493-fe9304d1-2dfc-4d63-b647-559bc15a0c47.png)
+
+
+## This repository is no longer maintained
 
 Since Google's official [Protocol Buffers][1] supports PHP language, it's unjustifiable to maintain this project. Please refer to [Protocol Buffers][1] for PHP language support.
 
@@ -14,7 +23,7 @@ Overview
 PHP Protobuf is Google's Protocol Buffers implementation for PHP with a goal to provide high performance, including a `protoc` plugin to generate PHP classes from .proto files. The heavy-lifting (a parsing and a serialization) is done by a PHP extension.
 
 ### Requirements
-* PHP 7.0 or above (for PHP 5 support refer to [php5](https://github.com/allegro/php-protobuf/tree/php5) branch)
+* PHP 8.0 or above (for PHP 7 support refer to [php5](https://github.com/allegro/php-protobuf) branch)
 * Pear's Console_CommandLine (for the protoc plugin)
 * Google's protoc compiler version 2.6 or above
 
@@ -24,12 +33,12 @@ PHP Protobuf is Google's Protocol Buffers implementation for PHP with a goal to 
 1. Clone the source code
 
     ```
-    git clone https://github.com/allegro/php-protobuf
+    git clone https://github.com/Tankonyako/php-protobuf-php8
     ```
 1. Go to the source code directory
 
     ```
-    cd php-protobuf
+    cd php-protobuf-php8
     ```
 1. Build and install the PHP extension (follow instructions at [php.net][2])
 
