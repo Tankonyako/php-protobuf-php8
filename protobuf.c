@@ -55,6 +55,9 @@
 		*int64_out_p = (int64_t)Z_LVAL_P(zval); \
 	}
 
+
+ 
+
 enum
 {
 	PB_TYPE_DOUBLE = 1,
@@ -89,11 +92,9 @@ static int pb_is_field_packed(zval *field_descriptor);
 
 PHP_METHOD(ProtobufMessage, __construct)
 {
-	zval values;
-	array_init(&values);
-
-	add_property_zval(getThis(), PB_VALUES_PROPERTY, &values);
-	zval_ptr_dtor(&values);
+	zval values_array;
+    array_init(&values_array);
+    zend_update_property(pb_entry, getThis(), PB_VALUES_PROPERTY, sizeof(PB_VALUES_PROPERTY) - 1, &values_array);
 }
 
 PHP_METHOD(ProtobufMessage, append)
@@ -703,6 +704,8 @@ PHP_MINIT_FUNCTION(protobuf)
 
 	INIT_CLASS_ENTRY(ce, "ProtobufMessage", pb_methods);
 	pb_entry = zend_register_internal_class(&ce TSRMLS_CC);
+	
+	zend_declare_property_null(pb_entry, PB_VALUES_PROPERTY, sizeof(PB_VALUES_PROPERTY) - 1, ZEND_ACC_PUBLIC);
 
 	PB_CONSTANT(PB_TYPE_DOUBLE);
 	PB_CONSTANT(PB_TYPE_FIXED32);
@@ -929,7 +932,7 @@ static int pb_get_field_descriptors(zval *this, zval* return_value)
     TSRMLS_FETCH();
 
 	ZVAL_STRINGL(&method, PB_FIELDS_METHOD, sizeof(PB_FIELDS_METHOD) - 1);
-	if (call_user_function_impl(NULL, this, &method, &descriptors, 0, NULL, 0, NULL TSRMLS_CC) == FAILURE) {
+	if (call_user_function(NULL, this, &method, &descriptors, 0, NULL) == FAILURE) {
 		return -1;
 	}
 	*return_value = descriptors;
@@ -1041,11 +1044,16 @@ static zval *pb_get_value(zval *this, zval *values, zend_ulong field_number)
 
 static zval *pb_get_values(zval *this)
 {
-	zval *values = NULL;
-    TSRMLS_FETCH();
+	zend_class_entry *ce = Z_OBJCE_P(this);
 
-	values = zend_hash_str_find(Z_OBJPROP_P(this), PB_VALUES_PROPERTY, sizeof(PB_VALUES_PROPERTY) - 1);
-	return values;
+	zend_property_info *property_info;
+	if ((property_info = zend_hash_str_find_ptr(&ce->properties_info, PB_VALUES_PROPERTY, strlen(PB_VALUES_PROPERTY))) == NULL) {
+		return NULL;
+	}
+
+	zval *property = (zval *)((char *)Z_OBJ_P(this) + property_info->offset);
+
+	return property;
 }
 
 static int pb_parse_field_value(zval *this, reader_t *reader, zend_ulong field_number, zend_long field_type, zval *value)

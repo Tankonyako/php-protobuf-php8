@@ -6,6 +6,37 @@
 #define PB_FOREACH(iter, hash) \
 	for (zend_hash_internal_pointer_reset_ex((hash), (iter)); zend_hash_has_more_elements_ex((hash), (iter)) == SUCCESS; zend_hash_move_forward_ex((hash), (iter)))
 
+#ifndef convert_to_explicit_type
+	#define convert_to_explicit_type(pzv, type)		\
+	do {										\
+		switch (type) {							\
+			case IS_NULL:						\
+				convert_to_null(pzv);			\
+				break;							\
+			case IS_LONG:						\
+				convert_to_long(pzv);			\
+				break;							\
+			case IS_DOUBLE:						\
+				convert_to_double(pzv);			\
+				break;							\
+			case _IS_BOOL:						\
+				convert_to_boolean(pzv);		\
+				break;							\
+			case IS_ARRAY:						\
+				convert_to_array(pzv);			\
+				break;							\
+			case IS_OBJECT:						\
+				convert_to_object(pzv);			\
+				break;							\
+			case IS_STRING:						\
+				convert_to_string(pzv);			\
+				break;							\
+			default:							\
+				assert(0);						\
+				break;							\
+			}										\
+		} while (0);
+#endif
 
 #if ZEND_MODULE_API_NO >= 20190128
 #ifndef TSRMLS_CC
