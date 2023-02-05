@@ -7,6 +7,7 @@ This fork is PHP 8.x temp patch
 
 ![image](https://user-images.githubusercontent.com/48120579/216325493-fe9304d1-2dfc-4d63-b647-559bc15a0c47.png)
 
+Composer package: https://packagist.org/packages/tankonyako/php-protobuf
 
 ## This repository is no longer maintained
 
