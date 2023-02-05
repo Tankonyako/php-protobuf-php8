@@ -1,5 +1,5 @@
 {
-    "name": "allegro/php-protobuf",
+    "name": "tankonyako/php-protobuf",
     "description": "Google's Protocol Buffers for PHP",
     "type": "library",
     "keywords": [
@@ -31,7 +31,7 @@
         "issues": "https://github.com/allegro/php-protobuf/issues"
     },
     "require": {
-        "php": ">=5.3",
+        "php": ">=8",
         "pear/console_commandline": "^1.2"
     },
     "license": "BSD-3-Clause"
